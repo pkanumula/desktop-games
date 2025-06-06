@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colorful Tic-Tac-Toe</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Pacifico&display=swap" rel="stylesheet">
+</head>
+<!-- Add a 'winner' class to the body if a winner is determined to trigger confetti -->
+<body class="{{ 'winner-body' if winner }}">
+    <!-- Pure CSS Confetti -->
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+
+    <div class="app-container">
+        <!-- Main Menu Bar -->
+        <nav class="menu-bar">
+            <ul>
+                <li>
+                    <form action="{{ url_for('reset') }}" method="post" style="display:inline;">
+                        <button type="submit">New Game</button>
+                    </form>
+                </li>
+                <li><a href="{{ url_for('index') }}">Resume</a></li>
+                <li><a href="{{ url_for('exit_app') }}">Exit</a></li>
+            </ul>
+        </nav>
+
+        <header class="game-header">
+            <h1>Tic-Tac-Toe</h1>
+        </header>
+
+        <main class="game-body">
+            <!-- Status Display -->
+            <div id="status" class="status-panel">
+                {% if winner %}
+                    {% if winner == 'Draw' %}
+                        It's a Draw!
+                    {% else %}
+                        🎉 {{ player_x if winner == 'X' else player_o }} Wins! 🎉
+                    {% endif %}
+                {% else %}
+                    {{ player_x if turn == 'X' else player_o }}'s Turn
+                {% endif %}
+            </div>
+
+            <!-- Game Board -->
+            <div id="board" class="board">
+                {% for i in range(9) %}
+                    <a href="{{ url_for('move', cell_index=i) if board[i] == '' and not winner else '#' }}" class="cell {{ 'cell-' + board[i] if board[i] }}">
+                        {{ board[i] }}
+                    </a>
+                {% endfor %}
+            </div>
+
+            <!-- Player Name Editor -->
+            <div class="player-settings">
+                <h2>Edit Players</h2>
+                <form action="{{ url_for('set_names') }}" method="post" class="name-form">
+                    <div class="input-group">
+                        <label for="player_x">Player X:</label>
+                        <input type="text" id="player_x" name="player_x" value="{{ player_x }}">
+                    </div>
+                    <div class="input-group">
+                        <label for="player_o">Player O:</label>
+                        <input type="text" id="player_o" name="player_o" value="{{ player_o }}">
+                    </div>
+                    <button type="submit">Update Names</button>
+                </form>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,216 @@
+/* --- Basic Setup & Fonts --- */
+:root {
+    --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --panel-bg: rgba(255, 255, 255, 0.2);
+    --text-color: #ffffff;
+    --shadow-color: rgba(0, 0, 0, 0.2);
+    --border-color: rgba(255, 255, 255, 0.5);
+    --color-x: #ff6b6b;
+    --color-o: #4d96ff;
+    --color-win: #ffd700;
+}
+
+body {
+    font-family: 'Fredoka One', cursive;
+    background: var(--bg-gradient);
+    color: var(--text-color);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    overflow: hidden; /* Hide confetti overflow */
+}
+
+.app-container {
+    width: 100%;
+    max-width: 500px;
+    background: var(--panel-bg);
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 8px 32px 0 var(--shadow-color);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 20px;
+}
+
+/* --- Menu Bar --- */
+.menu-bar {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 5px;
+    margin-bottom: 20px;
+}
+
+.menu-bar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.menu-bar button, .menu-bar a {
+    font-family: 'Fredoka One', cursive;
+    background: transparent;
+    border: none;
+    color: var(--text-color);
+    padding: 8px 15px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    border-radius: 8px;
+    text-decoration: none;
+    display: block;
+}
+
+.menu-bar button:hover, .menu-bar a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+/* --- Header & Status --- */
+.game-header h1 {
+    font-family: 'Pacifico', cursive;
+    text-align: center;
+    font-size: 3em;
+    margin: 0 0 20px 0;
+    text-shadow: 3px 3px 5px var(--shadow-color);
+}
+
+.status-panel {
+    text-align: center;
+    font-size: 1.5em;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+/* --- Game Board --- */
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.cell {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 15px;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 4em;
+    font-weight: bold;
+    text-decoration: none;
+    color: var(--text-color);
+    transition: all 0.3s ease;
+    text-shadow: 2px 2px 4px var(--shadow-color);
+    transform-style: preserve-3d;
+}
+
+.cell:hover {
+    transform: scale(1.05) rotateY(10deg);
+    background: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 4px 15px var(--shadow-color);
+}
+
+.cell-X {
+    color: var(--color-x);
+    transform: rotateY(360deg);
+}
+
+.cell-O {
+    color: var(--color-o);
+    transform: rotateY(360deg);
+}
+
+/* --- Player Settings --- */
+.player-settings {
+    margin-top: 30px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+.player-settings h2 {
+    text-align: center;
+    margin-top: 0;
+}
+.name-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+.input-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 80%;
+}
+.input-group label {
+    flex-shrink: 0;
+}
+.name-form input {
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    background: rgba(255, 255, 255, 0.8);
+    color: #333;
+    font-family: 'Fredoka One', cursive;
+}
+.name-form button {
+    padding: 10px 25px;
+    border: none;
+    border-radius: 8px;
+    background: var(--color-o);
+    color: white;
+    font-family: 'Fredoka One', cursive;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.name-form button:hover {
+    background: var(--color-x);
+    transform: scale(1.1);
+}
+
+/* --- Pure CSS Confetti Animation --- */
+.confetti {
+    --speed: 10s;
+    --bg: gold;
+    width: 10px;
+    height: 10px;
+    background-color: var(--bg);
+    position: absolute;
+    top: -20px;
+    opacity: 0;
+}
+
+.winner-body .confetti {
+    animation: fall var(--speed) linear infinite;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 1;
+    }
+}
+
+/* Staggering confetti pieces */
+.confetti:nth-child(1) { left: 10%; animation-delay: 0s; --bg: #ff6b6b; }
+.confetti:nth-child(2) { left: 20%; animation-delay: -2s; --bg: #f9ca24; }
+.confetti:nth-child(3) { left: 30%; animation-delay: -5s; --bg: #4d96ff; }
+.confetti:nth-child(4) { left: 40%; animation-delay: -1s; --bg: #6ab04c; }
+.confetti:nth-child(5) { left: 50%; animation-delay: -3s; --bg: #f0932b; }
+.confetti:nth-child(6) { left: 60%; animation-delay: -4s; --bg: #be2edd; }
+.confetti:nth-child(7) { left: 70%; animation-delay: -6s; --bg: #ff6b6b; }
+.confetti:nth-child(8) { left: 80%; animation-delay: -1.5s; --bg: #f9ca24; }
+.confetti:nth-child(9) { left: 90%; animation-delay: -3.5s; --bg: #4d96ff; }
+.confetti:nth-child(10){ left: 5%; animation-delay: -2.5s; --bg: #6ab04c; }
+
